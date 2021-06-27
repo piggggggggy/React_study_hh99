@@ -113,6 +113,20 @@ class App extends React.Component {
     console.log(this.text);
     console.log(this.text.current);
   }
+
+  addBucket = () => {
+    // const addText = this.text.current.value;
+    // const newlist = this.state.list.slice();
+    // console.log(newlist);
+    // this.setState({list: list.push(addText)});  // 불변성유지가 안되는 코드!!!!
+    
+    
+    const addText = this.text.current.value;
+    const list = this.state.list;
+    console.log(list);
+    this.setState({list: [...list, addText]});
+
+  }
   // 랜더 함수 안에 리액트 엘리먼트를 넣어줍니다!
   render() {
     return (
@@ -125,14 +139,25 @@ class App extends React.Component {
           <BucketList list={this.state.list} />
         </Container>
         
-        <div>
+        <MiniContainer>
           <input type="text" ref={this.text}/>
-        </div>
+          <button onClick={this.addBucket}>추가하기</button>
+        </MiniContainer>
       
       </div>
     );
   }
 }
+
+const MiniContainer = styled.div`
+  max-width: 350px;
+  min-height: 10vh;
+  background-color: #fff;
+  padding: 16px;
+  margin: 20px auto;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+`;
 
 const Container = styled.div`
   max-width: 350px;

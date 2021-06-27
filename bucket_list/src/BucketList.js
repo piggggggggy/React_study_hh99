@@ -109,3 +109,4 @@ const ItemStyle = styled.div`
 `;
 
 export default BucketList;
+
