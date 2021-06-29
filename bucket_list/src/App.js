@@ -92,10 +92,14 @@
 
 import React from "react";
 import logo from "./logo.svg";
+import { withRouter } from "react-router";
+import { Route, Switch } from "react-router-dom";
 // BucketList 컴포넌트를 import 해옵니다.
 // import [컴포넌트 명] from [컴포넌트가 있는 파일경로];
 import BucketList from "./BucketList";
 import styled from "styled-components";
+import Detail from "./Detail";
+import NotFound from "./NotFound";
 
 // 클래스형 컴포넌트는 이렇게 생겼습니다!
 class App extends React.Component {
@@ -110,8 +114,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.text);
-    console.log(this.text.current);
+    // console.log(this.text);
+    // console.log(this.text.current);
   }
 
   addBucket = () => {
@@ -136,7 +140,12 @@ class App extends React.Component {
           <Line/>
           {/* 컴포넌트를 넣어줍니다. */}
           {/* <컴포넌트 명 [props 명]={넘겨줄 것(리스트, 문자열, 숫자, ...)}/> */}
-          <BucketList list={this.state.list} />
+          {/* <BucketList list={this.state.list} /> */}
+          <Switch>
+            <Route exact path="/" render={(props) => <BucketList history={this.props.history} list={this.state.list}/>}/>
+            <Route path="/detail" component={Detail}/>
+            <Route render={() => <NotFound history={this.props.history}/>} />
+          </Switch>
         </Container>
         
         <MiniContainer>
@@ -152,7 +161,7 @@ class App extends React.Component {
 const MiniContainer = styled.div`
   max-width: 350px;
   min-height: 10vh;
-  background-color: #fff;
+  background-color: #fff; 
   padding: 16px;
   margin: 20px auto;
   border-radius: 5px;
@@ -179,7 +188,7 @@ const Line = styled.hr`
   border: 1px dotted #ddd;
 `;
 
-export default App;
+export default withRouter(App);
 //---------------------숙제----------------------------
 
 // import React from 'react';
