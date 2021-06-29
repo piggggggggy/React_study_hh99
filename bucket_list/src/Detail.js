@@ -1,10 +1,57 @@
+// import React from "react";
+// import { useSelector, useDispatch } from "react-redux";
+
+// const Detail = (props) => {
+//     const bucket_list = useSelector((state) => state.bucket.list);
+//     console.log(props, bucket_list);
+
+//     const bucket_index = parseInt(props.match.params.index);
+
+//     return (
+//         <h1>{bucket_list[bucket_index]}</h1>
+//     )
+// }
+
+// export default Detail;
+
+
+//---------------------------------------------
+// 리액트 패키지를 불러옵니다.
 import React from "react";
 
-const Detail = (props) => {
+// redux hook을 불러옵니다.
+import { useDispatch, useSelector } from "react-redux";
+import { deleteBucket, updateBucket } from "./redux/modules/bucket";
+// 내가 만든 액션 생성 함수를 불러옵니다.
+// import {deleteBucket} from "./redux/modules/bucket";
 
-    return (
-        <div>상세 페이지입니다!</div>
-    )
-}
+
+
+const Detail = (props) => {
+  const dispatch = useDispatch();
+    
+    
+  // 스토어에서 상태값 가져오기
+  const bucket_list = useSelector((state) => state.bucket.list);
+  // url 파라미터에서 인덱스 가져오기
+  let bucket_index = parseInt(props.match.params.index);
+
+
+  return (
+    <div>
+      <h1>{bucket_list[bucket_index].text}</h1>
+      <button onClick={() => {
+				dispatch(deleteBucket(bucket_index));
+				props.history.goBack();
+      }}>삭제하기</button>
+			<button onClick={() => {
+				dispatch(updateBucket(bucket_index));
+				props.history.goBack();
+			}}>완료하기</button>
+    </div>
+  );
+};
 
 export default Detail;
+
+
