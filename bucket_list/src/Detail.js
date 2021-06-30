@@ -21,9 +21,13 @@ import React from "react";
 
 // redux hook을 불러옵니다.
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBucket, updateBucket } from "./redux/modules/bucket";
+import { deleteBucket, updateBucket, updateBucketFB, deleteBucketFB } from "./redux/modules/bucket";
+// 앞에 두개는 안쓰기 때문에 지워도 됨
 // 내가 만든 액션 생성 함수를 불러옵니다.
 // import {deleteBucket} from "./redux/modules/bucket";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+
 
 
 
@@ -40,14 +44,16 @@ const Detail = (props) => {
   return (
     <div>
       <h1>{bucket_list[bucket_index].text}</h1>
-      <button onClick={() => {
-				dispatch(deleteBucket(bucket_index));
+      <ButtonGroup>
+        <Button color="secondary" onClick={() => {
+				dispatch(updateBucketFB(bucket_index));
 				props.history.goBack();
-      }}>삭제하기</button>
-			<button onClick={() => {
-				dispatch(updateBucket(bucket_index));
+			}}>완료하기</Button>
+        <Button style={{color: "orange"}} onClick={() => {
+				dispatch(deleteBucketFB(bucket_index));
 				props.history.goBack();
-			}}>완료하기</button>
+      }}>삭제하기</Button>
+      </ButtonGroup>
     </div>
   );
 };

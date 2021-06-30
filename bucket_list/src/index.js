@@ -34,6 +34,7 @@ import {BrowserRouter} from 'react-router-dom';
 import { Provider } from "react-redux";
 // 연결할 스토어도 가지고 와요.
 import store from "./redux/configStore";
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

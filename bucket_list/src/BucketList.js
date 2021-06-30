@@ -156,6 +156,7 @@ const ListStyle = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
 `;
@@ -164,6 +165,7 @@ const ItemStyle = styled.div`
   padding: 16px;
   margin: 8px;
   background-color: ${props => props.color};
+  font-weight: bold;
 `;
 
 export default BucketList;

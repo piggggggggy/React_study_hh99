@@ -211,10 +211,11 @@ import NotFound from "./NotFound";
 import Progress from "./Progress";
 
 // 리덕스 스토어와 연결하기 위해 connect라는 친구를 호출할게요!
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 // 리덕스 모듈에서 (bucket 모듈에서) 액션 생성 함수 두개를 가져올게요!
-import {loadBucket, createBucket} from './redux/modules/bucket';
+import { loadBucket, createBucket, loadBucketFB, addBucketFB } from './redux/modules/bucket';
 
+import { firestore } from "./firebase";
 // 이 함수는 스토어가 가진 상태값을 props로 받아오기 위한 함수예요.
 const mapStateTopProps = (state) => ({
   bucket_list: state.bucket.list,
@@ -223,10 +224,10 @@ const mapStateTopProps = (state) => ({
 // 이 함수는 값을 변화시키기 위한 액션 생성 함수를 props로 받아오기 위한 함수예요.
 const mapDispatchToProps = (dispatch) => ({
   load: () => {
-    dispatch(loadBucket());
+    dispatch(loadBucketFB());
   },
   create: (new_item) => {
-    dispatch(createBucket(new_item));
+    dispatch(addBucketFB(new_item));
   }
 });
 
@@ -243,7 +244,49 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    this.props.load();
+    // const bucket = firestore.collection("buckets");
+
+    // // 없는 버킷에 추가해주는 것 , 될까 안될까? 된다!!! 새로운 컬렉션 생성!
+    // bucket.doc("bucket_item").set({text: "보드 배우기", completed: false});
+
+
+    // bucket.doc("bucket_item2").get().then((doc) => {
+    //   if(doc.exists){
+    //     console.log(doc);
+    //     console.log(doc.data());  // 데이터가져오기
+    //     console.log(doc.id);  // doc 아이디 가져오기
+    //   }
+    //   console.log(doc.exists);
+    // });
+
+    // bucket.get().then(docs => {
+    //   let bucket_data = [];
+    //   docs.forEach((doc) => {
+    //     if(doc.exists){
+    //       bucket_data = [...bucket_data, {id: doc.id, ...doc.data()}]
+    //     };
+    //   });
+    //   console.log(bucket_data);
+    // });
+
+    // 데이터 추가
+    // bucket.add({text:"발레 배우기", completed: false}).then((docRef) => {
+    //   console.log(docRef);
+    //   console.log(docRef.id);
+    // });
+    // 비동기 작업하려는 것
+
+
+    // 데이터 업데이트
+    // 무엇을 업데이트 해야하는지 모르기때문에 doc('id') 잡아주기
+    // bucket.doc("bucket_item1").update({text: "수영 배우기2"});
+  
+    // 삭제도 역시나 id 값이 필요하다
+    // bucket.doc("bucket_item2").delete().then(docRef => {
+      
+    //   console.log("지웠어요!");
+    // });
   }
 
   addBucketList = () => {
@@ -270,10 +313,11 @@ class App extends React.Component {
         </Container>
         {/* 인풋박스와 추가하기 버튼을 넣어줬어요. */}
         <Input>
-          <input type="text" ref={this.text} />
-          <button onClick={this.addBucketList}>추가하기</button>
+          <Text type="text" ref={this.text} />
+          <AddBtn onClick={this.addBucketList}>추가하기</AddBtn>
         </Input>
-        <button onClick={() => {window.scrollTo({top:0, left:0, behavior:"smooth"})}}>위로가기</button>
+        {/* <button onClick={() => {window.scrollTo({top:0, left:0, behavior:"smooth"})}}>위로가기</button> */}
+        {/* 스크롤크기를 정해놔서 이제 필요가 없는 위로가기... */}
       </div>
     );
   }
@@ -287,7 +331,28 @@ const Input = styled.div`
   margin: 20px auto;
   border-radius: 5px;
   border: 1px solid #ddd;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
+
+const Text = styled.input`
+  width: 70%;
+  height: 30px;
+  border-radius: 5px;
+  &:focus{
+    outline: none;
+    border: 2px solid orange;
+  }
+`
+const AddBtn = styled.button`
+  width: 25%;
+  height: 30px;
+  color: #fff;
+  background-color: skyblue;
+  border: 1px solid skyblue;
+`
 
 const Container = styled.div`
   max-width: 350px;
@@ -300,7 +365,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  color: slateblue;
+  color: skyblue;
   text-align: center;
 `;
 

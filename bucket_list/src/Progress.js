@@ -17,7 +17,10 @@ const Progress = (props) => {
 
     return (
         <ProgressBar>
+            
             <HighLight width={(count/bucket_list.length)*100 + "%"}/>
+            <Ball/>
+            
         </ProgressBar>
     );
 }
@@ -26,16 +29,31 @@ const Progress = (props) => {
 
 const ProgressBar = styled.div`
     background: #eee;
-    width: 100%;
-    height: 40px;
+    width: 90%;
+    height: 20px;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    align-items: center;
 `;
 
 const HighLight = styled.div`
     background: orange;
-    height: 40px;
+    height: 20px;
     width: ${props => props.width};
     transition: width 1s;
+    border-radius: 10px;
 `;
+
+const Ball = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 5px solid orange;
+    margin-left: -10px;
+    box-sizing: border-box;
+`
 
 
 export default Progress;
